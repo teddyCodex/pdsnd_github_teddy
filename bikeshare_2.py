@@ -218,12 +218,12 @@ def user_stats(df):
     print("\nCalculating User Stats...\n")
     start_time = time.time()
 
-    # Display counts of user types
+    # Display user types count
     user_type_count = df["User Type"].value_counts()
     print("User Type Counts: \n{}".format(user_type_count))
     print()
 
-    # Display counts of gender
+    # Display Gender count
     if "Gender" not in df.columns:
         print("No Gender Data Available")
     else:
