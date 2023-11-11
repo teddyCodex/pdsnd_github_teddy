@@ -264,20 +264,17 @@ def get_raw_data():
 
 
 def generate_raw_data(df: pd.DataFrame):
-    """_summary_
+    """Generate sequential chunks of data (5 rows each) from a DataFrame.
 
     Args:
-        df (pd.DataFrame): accepts a dataframe
+        df (pd.DataFrame): The DataFrame to process.
 
     Yields:
-        DataFrame: Produces sequential chunks of data (5 lines)
+        pd.DataFrame: A chunk of the original DataFrame.
     """
-    start_index = 0
-
-    while start_index < len(df):
-        end_index = start_index + 5
-        yield df.iloc[start_index:end_index]
-        start_index = end_index
+    chunk_size = 5
+    for start in range(0, len(df), chunk_size):
+        yield df.iloc[start : start + chunk_size]
 
 
 def main():
