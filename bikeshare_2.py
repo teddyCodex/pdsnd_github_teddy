@@ -2,7 +2,7 @@ import time
 import pandas as pd
 import numpy as np
 
-CITY_DATA = {
+CITY_DATA_FILES = {
     "chicago": "chicago.csv",
     "new york city": "new_york_city.csv",
     "washington": "washington.csv",
@@ -46,7 +46,7 @@ def get_filters():
         city = input(
             "\nPlease enter a city (Chicago, New York City, Washington): "
         ).lower()
-        if city not in CITY_DATA:
+        if city not in CITY_DATA_FILES:
             print(f"{city} is not an available option. Try again.\n")
         else:
             break
@@ -73,7 +73,7 @@ def get_filters():
     return city, month, day
 
 
-def load_data(city, month, day):
+def load_data(city: str, month: str, day: str):
     """
     Loads data for the specified city and filters by month and day if applicable.
 
@@ -85,7 +85,7 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     # load data file into a dataframe
-    df = pd.read_csv(CITY_DATA[city])
+    df = pd.read_csv(CITY_DATA_FILES[city])
 
     # convert the Start Time column to datetime
     df["Start Time"] = pd.to_datetime(df["Start Time"])
@@ -108,7 +108,7 @@ def load_data(city, month, day):
     return df
 
 
-def time_stats(df):
+def time_stats(df: pd.DataFrame):
     """Displays statistics on the most frequent times of travel."""
 
     print("\nCalculating The Most Frequent Times of Travel...\n")
@@ -148,7 +148,7 @@ def time_stats(df):
     print("-" * 40)
 
 
-def station_stats(df):
+def station_stats(df: pd.DataFrame):
     """Displays statistics on the most popular stations and trip."""
 
     print("\nCalculating The Most Popular Stations and Trip...\n")
@@ -186,7 +186,7 @@ def station_stats(df):
     print("-" * 40)
 
 
-def trip_duration_stats(df):
+def trip_duration_stats(df: pd.DataFrame):
     """Displays statistics on the total and average trip duration."""
 
     print("\nCalculating Trip Duration...\n")
@@ -212,7 +212,7 @@ def trip_duration_stats(df):
     print("-" * 40)
 
 
-def user_stats(df):
+def user_stats(df: pd.DataFrame):
     """Displays statistics on bikeshare users."""
 
     print("\nCalculating User Stats...\n")
@@ -264,20 +264,17 @@ def get_raw_data():
 
 
 def generate_raw_data(df: pd.DataFrame):
-    """_summary_
+    """Generate sequential chunks of data (5 rows each) from a DataFrame.
 
     Args:
-        df (pd.DataFrame): accepts a dataframe
+        df (pd.DataFrame): The DataFrame to process.
 
     Yields:
-        DataFrame: Produces sequential chunks of data (5 lines)
+        pd.DataFrame: A chunk of the original DataFrame.
     """
-    start_index = 0
-
-    while start_index < len(df):
-        end_index = start_index + 5
-        yield df.iloc[start_index:end_index]
-        start_index = end_index
+    chunk_size = 5
+    for start in range(0, len(df), chunk_size):
+        yield df.iloc[start : start + chunk_size]
 
 
 def main():
