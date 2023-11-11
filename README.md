@@ -30,4 +30,6 @@ bikeshare_analysis.py (main file for analysis)
 
 ### Credits
 
-WIP
+```
+Udacity
+```
